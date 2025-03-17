@@ -51,7 +51,7 @@ function ModeSelection() {
         </MenuItem>
       </Select>
     </FormControl >
-  );
+  )
 }
 
 function ModeToggle() {
