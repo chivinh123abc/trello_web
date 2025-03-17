@@ -15,7 +15,7 @@ import Select from '@mui/material/Select'
 import NightsStayIcon from '@mui/icons-material/NightsStay'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import SettingsBrightnessIcon from '@mui/icons-material/SettingsBrightness'
-import Box from '@mui/material/box'
+import Box from '@mui/material/Box'
 
 function ModeSelection() {
   const { mode, setMode } = useColorScheme()
