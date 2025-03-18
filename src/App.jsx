@@ -1,3 +1,4 @@
+import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm'
 import ThreeDRotation from '@mui/icons-material/ThreeDRotation'
@@ -15,7 +16,6 @@ import Select from '@mui/material/Select'
 import NightsStayIcon from '@mui/icons-material/NightsStay'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import SettingsBrightnessIcon from '@mui/icons-material/SettingsBrightness'
-import Box from '@mui/material/Box'
 
 function ModeSelection() {
   const { mode, setMode } = useColorScheme()
@@ -40,15 +40,15 @@ function ModeSelection() {
           </div>
         </MenuItem>
         <MenuItem value='dark'>
-          <Box style={{ display: 'flex', alignItem: 'center', gap: 1 }} >
+          <Box sx={{ display: 'flex', alignItem: 'center', gap: 1 }} >
             <NightsStayIcon fontSize='small' /> Dark
           </Box>
         </MenuItem>
-        <MenuItem value='system'>
-          <Box style={{ display: 'flex', alignItem: 'center', gap: 2 }} >
+        <div style={{ display: 'flex', alignItem: 'center', gap: '8px' }}>
+          <MenuItem value='system'>
             <SettingsBrightnessIcon fontSize='small' /> System
-          </Box>
-        </MenuItem>
+          </MenuItem>
+        </div>
       </Select>
     </FormControl >
   )
