@@ -44,11 +44,11 @@ function ModeSelection() {
             <NightsStayIcon fontSize='small' /> Dark
           </Box>
         </MenuItem>
-        <div style={{ display: 'flex', alignItem: 'center', gap: '8px' }}>
+        <Box sx={{ display: 'flex', alignItem: 'center', gap: 1 }}>
           <MenuItem value='system'>
             <SettingsBrightnessIcon fontSize='small' /> System
           </MenuItem>
-        </div>
+        </Box>
       </Select>
     </FormControl >
   )
