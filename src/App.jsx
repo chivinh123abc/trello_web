@@ -1,4 +1,4 @@
-import Board from './pages/Boards/_id'
+import Board from '~/pages/Boards/_id'
 function App() {
   return (
     //React Router Dum /boards /boards/(board_id)
