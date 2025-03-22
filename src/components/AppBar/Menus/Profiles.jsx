@@ -33,7 +33,7 @@ function Profiles() {
           aria-expanded={open ? 'true' : undefined}
         >
           <Avatar
-            sx={{ width: 30, height: 30 }}
+            sx={{ width: 34, height: 34 }}
             alt='RyanLuong'
             src='https://i.pinimg.com/736x/7e/a0/90/7ea0904d2dbe92a9b8070676b85eee85.jpg'
           />
