@@ -22,6 +22,7 @@ function Templates() {
   return (
     <Box>
       <Button
+        sx={{ color: '#ffffff' }}
         id="demo-positioned-button-templates"
         aria-controls={open ? 'demo-positioned-menu-templates' : undefined}
         aria-haspopup="true"
