@@ -1,6 +1,6 @@
 //BoardDetail
 import Container from '@mui/material/Container'
-import AppBoard from '~/components/AppBar'
+import AppBar from '~/components/AppBar'
 import BoardBar from './BoardBar'
 import BoardContent from './BoardContent'
 // import BoardContent from '~/pages/Boards/BoardContent'
@@ -8,7 +8,7 @@ import BoardContent from './BoardContent'
 function Board() {
   return (
     <Container disableGutters maxWidth={false} sx={{ height: '100vh' }}>
-      <AppBoard></AppBoard>
+      <AppBar></AppBar>
       <BoardBar />
       <BoardContent />
     </Container >
