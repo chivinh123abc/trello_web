@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Box from '@mui/material/Box'
-import ModeSelection from '~/components/ModeSelection'
+import ModeSelection from '~/components/ModeSelection/ModeSelection'
 import AppsIcon from '@mui/icons-material/Apps'
 import { ReactComponent as TrelloIcon } from '~/assets/trello.svg'
 import SvgIcon from '@mui/material/SvgIcon'
