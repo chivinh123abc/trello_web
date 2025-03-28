@@ -11,10 +11,14 @@ import {
   useSensors,
   DragOverlay,
   defaultDropAnimationSideEffects,
-  closestCorners
+  closestCorners,
+  closestCenter,
+  pointerWithin,
+  rectIntersection,
+  getFirstCollision
 } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { cloneDeep } from 'lodash'
 
 import Column from './ListColumns/Column/Column'
@@ -45,6 +49,8 @@ function BoardContent({ board }) {
   const [activeDragItemType, setActiveDragItemType] = useState([null])
   const [activeDragItemData, setActiveDragItemData] = useState([null])
   const [oldColumnWhenDraggingCard, setOldColumnWhenDraggingCard] = useState([null])
+  // Diem va cham cuoi cung truoc do(xu ly thuat toan phat hien va cham  vd37)
+  const lastOverId = useRef(null)
 
   useEffect(() => {
     // const orderedColumns = mapOrder(board?.columns, board?.columnOrderIds, '_id')
@@ -121,17 +127,6 @@ function BoardContent({ board }) {
       setOldColumnWhenDraggingCard(findColumnByCardId(event?.active.id))
     }
   }
-
-  const customDropAnimation = {
-    sideEffects: defaultDropAnimationSideEffects({
-      styles: {
-        active: {
-          opacity: '0.5'
-        }
-      }
-    })
-  }
-
 
   //Trigger trong qua trinh keo (drag) 1 phan tu
   const handleDragOver = (event) => {
@@ -261,13 +256,70 @@ function BoardContent({ board }) {
   // console.log('HandleDragType: ', activeDragItemType)
   // console.log('HandleDragData: ', activeDragItemData)
 
+  const customDropAnimation = {
+    sideEffects: defaultDropAnimationSideEffects({
+      styles: {
+        active: {
+          opacity: '0.5'
+        }
+      }
+    })
+  }
+
+  //Custom lai strategy cua thuat toan phat hien va cham
+  //==>  toi uu cho viec keo tha card giua nhieu columns (vd 37)
+  const collisionDetectionStrategy = useCallback((args) => {
+    //Truong hop keo column thi dung closetCorners isdabet
+    if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN) {
+      return closestCorners({ ...args })
+    }
+    //Tim cac diem giao nhau, va cham - intersection voi con tro
+    const pointerInterections = pointerWithin(args)
+
+    //Thuat toan phat hien  va cham se tra ve mot mang cac va cham o day
+    // const intersections = pointerInterections?.length > 0
+    const intersections = !!pointerInterections?.length
+      ? pointerInterections
+      : rectIntersection(args)
+
+    //tim  overId dau tien trong dam intersection o tren
+    let overId = getFirstCollision(intersections, 'id')
+    if (overId) {
+      //neu over la column se tim toi card  id gan nhat ben trong khu vuc va cham dua vao
+      //thuat toan phat hien va cham closestCenter (muot hon Corner 1 ti) - vd 37
+      const checkColumn = orderedColumns.find(column => column._id === overId)
+      if (checkColumn) {
+        // console.log('OverId before: '.overId)
+        overId = closestCenter({
+          ...args,
+          droppableContainers: args.droppableContainers.filter(container => {
+            return (container.id !== overId) && (checkColumn?.cardOrderIds.includes(container.id))
+          })
+        })[0]?.id
+        // console.log('OverId after: '.overId)
+      }
+
+      lastOverId.current = overId
+      return [{ id: overId }]
+    }
+
+    //Neu  overId la null thi tra ve mang rong, tranh bug crash trang
+    return lastOverId.current ? [{ id: lastOverId.current }] : []
+
+  }, [activeDragItemType, orderedColumns])
+
   return (
     <DndContext
       // Cam bien - video so 30
       sensors={sensors}
       // Thuat toan phat hien va cham (neu k co no thi card vs cover lon se khong keo qua Column khac dc
       // vi luc nay bi conflict giua card va column), chung ta se dung closestCorners thay vi closetCenter
-      collisionDetection={closestCorners}
+
+      //Neu chi dung closestCorner  se co bug flickering + sai lech du lieu (video 37)
+      // collisionDetection={closestCorners}
+      //Tu custom nang cao thuat toan pha hien va cham (vd 37)
+      collisionDetection={collisionDetectionStrategy}
+
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}>
