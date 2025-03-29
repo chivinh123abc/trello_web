@@ -8,7 +8,7 @@ export const mockData = {
     type: 'public', // 'private'
     ownerIds: [], // Những users là Admin của board
     memberIds: [], // Những users là member bình thường của board
-    columnOrderIds: ['column-id-01', 'column-id-03', 'column-id-02'], // Thứ tự sắp xếp / vị trí của các Columns trong 1 boards
+    columnOrderIds: ['column-id-01', 'column-id-02', 'column-id-03', 'column-id-04'], // Thứ tự sắp xếp / vị trí của các Columns trong 1 boards
     columns: [
       {
         _id: 'column-id-01',
@@ -55,6 +55,29 @@ export const mockData = {
           { _id: 'card-id-11', boardId: 'board-id-01', columnId: 'column-id-03', title: 'Title of card 11', description: null, cover: null, memberIds: [], comments: [], attachments: [] },
           { _id: 'card-id-12', boardId: 'board-id-01', columnId: 'column-id-03', title: 'Title of card 12', description: null, cover: null, memberIds: [], comments: [], attachments: [] },
           { _id: 'card-id-13', boardId: 'board-id-01', columnId: 'column-id-03', title: 'Title of card 13', description: null, cover: null, memberIds: [], comments: [], attachments: [] }
+        ]
+      },
+      {
+        _id: 'column-id-04',
+        boardId: 'board-id-01',
+        title: 'Empty Column 04',
+        /**
+         * Video 37.2 cach  xu ly bug logic thu  vien dnd kit khi Column la rong
+         * Phia FE se tu  tao 1  cai card dac  biet: PlaceholderCard , khong lien qan den BE
+         * Card  nay se dc an o giao dien UI nguoi  dung
+         * Cau truc Id cua cai card nay de Unique rat don gian khong can phai random phuc tap:
+         * "columnId-placeholder-card" (moi column chi co the co toi da 1 placeHoderCard)
+         * quan trong khi tao: phai day du (_id, boardId, columnId, FE_PlacehoderCard)
+         * *** Kỹ hơn nữa về cacsh tạo chuẩn ở bước nào thì sẽ học ở tích hợp API BackEnd vào dự án
+         */
+        cardOrderIds: ['column-id-04-placeholder-card'],
+        cards: [
+          {
+            _id: 'column-id-04-placeholder-card',
+            boardId: 'board-id-01',
+            columnId: 'column-id-04',
+            FE_PlaceholderCard: true
+          }
         ]
       }
     ]

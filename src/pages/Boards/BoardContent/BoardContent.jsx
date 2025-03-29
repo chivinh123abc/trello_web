@@ -12,17 +12,18 @@ import {
   DragOverlay,
   defaultDropAnimationSideEffects,
   closestCorners,
-  closestCenter,
+  // closestCenter,
   pointerWithin,
-  rectIntersection,
+  // rectIntersection,
   getFirstCollision
 } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { cloneDeep } from 'lodash'
+import { cloneDeep, isEmpty } from 'lodash'
 
 import Column from './ListColumns/Column/Column'
 import Card from './ListColumns/Column/ListCards/Card/Card'
+import { generatePlaceholderCard } from '~/utils/formatters'
 
 const ACTIVE_DRAG_ITEM_TYPE = {
   COLUMN: 'ACTIVE_DRAG_ITEM_TYPE_COLUMN',
@@ -92,6 +93,12 @@ function BoardContent({ board }) {
       if (nextActiveColumn) {
         //Xoa card o column active (column cu) luc ma keo card khoi de sang column khac
         nextActiveColumn.cards = nextActiveColumn.cards.filter(card => card._id !== activeDraggingCardId)
+
+        //Them placeHoderCard neu column rong: 37.2
+        if (isEmpty(nextActiveColumn.cards)) {
+          nextActiveColumn.cards = [generatePlaceholderCard(nextActiveColumn)]
+        }
+
         //Cap nhat lai cardOrderids cho chuan du lieu
         nextActiveColumn.cardOrderIds = nextActiveColumn.cards.map(card => card._id)
       }
@@ -100,13 +107,16 @@ function BoardContent({ board }) {
         //Kiem  tra card dang keo co ton tai o overColumn chua, neu co thi can xoa no truoc
         nextOverColumn.cards = nextOverColumn.cards.filter(card => card._id !== activeDraggingCardId)
         //Phai cap  nhat lai chuan du lieu columnId trong card sau khi
-        //keo card giua 2 column khac nhau
         const rebuild_activeDraggingCardData = {
           ...activeDraggingCardData,
           columnId: nextOverColumn._id
         }
         //Them card dang keo vao column theo vi tri index moi
         nextOverColumn.cards = nextOverColumn.cards.toSpliced(newCardIndex, 0, rebuild_activeDraggingCardData)
+
+        //Xoa placeholderCard khi dang ton tai
+        nextOverColumn.cards = nextOverColumn.cards.filter(card => !card.FE_PlacehoderCard)
+
         //cap nhat lai cardOrderedIds cho chuan du lieu
         nextOverColumn.cardOrderIds = nextOverColumn.cards.map(card => card._id)
       }
@@ -274,23 +284,30 @@ function BoardContent({ board }) {
       return closestCorners({ ...args })
     }
     //Tim cac diem giao nhau, va cham - intersection voi con tro
-    const pointerInterections = pointerWithin(args)
+    const pointerIntesections = pointerWithin(args)
 
     //Thuat toan phat hien  va cham se tra ve mot mang cac va cham o day
+    //neu pointerIntersection la mang  rong  return ngay  va do nothing
+    //fix  flickering triet de trong truong hop  nay
     // const intersections = pointerInterections?.length > 0
-    const intersections = !!pointerInterections?.length
-      ? pointerInterections
-      : rectIntersection(args)
+    if (!pointerIntesections?.length) {
+      return
+    }
 
-    //tim  overId dau tien trong dam intersection o tren
-    let overId = getFirstCollision(intersections, 'id')
+    //Thuat toan  phat hien va cham tra ve 1 mang cac  va cham o day (k can buoc nay nx - vd 37.1)
+    // const intersections = !!pointerInterections?.length
+    //   ? pointerInterections
+    //   : rectIntersection(args)
+
+    //tim  overId dau tien trong dam pointerInterection o tren
+    let overId = getFirstCollision(pointerIntesections, 'id')
     if (overId) {
       //neu over la column se tim toi card  id gan nhat ben trong khu vuc va cham dua vao
-      //thuat toan phat hien va cham closestCenter (muot hon Corner 1 ti) - vd 37
+      //thuat toan phat hien va cham closestCorners (muot hon centers 1 ti) - vd 37
       const checkColumn = orderedColumns.find(column => column._id === overId)
       if (checkColumn) {
         // console.log('OverId before: '.overId)
-        overId = closestCenter({
+        overId = closestCorners({
           ...args,
           droppableContainers: args.droppableContainers.filter(container => {
             return (container.id !== overId) && (checkColumn?.cardOrderIds.includes(container.id))
