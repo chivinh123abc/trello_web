@@ -4,13 +4,12 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Column from './Column/Column'
 import NoteAddIcon from '@mui/icons-material/NoteAdd'
-import SearchIcon from '@mui/icons-material/Search'
 import CloseIcon from '@mui/icons-material/Close'
 
 import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable'
-import { InputAdornment, TextField } from '@mui/material'
+import { TextField } from '@mui/material'
 
-function ListColumns({ columns }) {
+function ListColumns({ columns, createNewColumn, createNewCard }) {
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false)
   const toggleOpenNewColumnForm = () => {
     setOpenNewColumnForm(!openNewColumnForm)
@@ -23,14 +22,24 @@ function ListColumns({ columns }) {
     setNewColumnTitle('')
   }
 
-  const addNewColumn = () => {
+  const addNewColumn = async () => {
     if (!newColumnTitle) {
       toast.error('Khong duoc de trong ten Column')
       return
     }
-    // console.log(newColumnTitle)
-    //Goi API o day....
+    //Tao du lieu column de goi API
+    const newColumnData = {
+      title: newColumnTitle
+      // boardId: createNewColumn.boardId
+    }
 
+    /**
+     * Gọi lên props function createNewColumn nằm ở component cha cao nhất (boards/_id.jsx)
+     * Lưu ý: về sau ở học phần nâng cao học thì sẽ đưa boardData ra ngoài Redux Global Store
+     * Thi lúc này chúng ta có thể gọi luôn API ở đây là xong thay vì phải lần lượt gọi lên những component cha phía trên(Đối với component con nằm càng sâu càng khổ)
+     * - Với việc sử dụng Redux như vậy thì code sẽ clean chuẩn chỉnh hơn
+     */
+    await createNewColumn(newColumnData)
     //Dong trang thai them column & clear Input
     exitAddNewColums()
   }
@@ -50,7 +59,7 @@ function ListColumns({ columns }) {
         overflowY: 'hidden',
         '&::-webkit-scrollbar-track': { m: 2 }
       }}>
-        {columns?.map(column => <Column key={column._id} column={column} />)}
+        {columns?.map(column => <Column key={column._id} column={column} createNewCard={createNewCard} />)}
         {/* {columns?.map(column => {
         return <Column key={column._id} />
         })} */}
