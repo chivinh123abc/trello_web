@@ -39,7 +39,7 @@ function ListColumns({ columns, createNewColumn, createNewCard }) {
      * Thi lúc này chúng ta có thể gọi luôn API ở đây là xong thay vì phải lần lượt gọi lên những component cha phía trên(Đối với component con nằm càng sâu càng khổ)
      * - Với việc sử dụng Redux như vậy thì code sẽ clean chuẩn chỉnh hơn
      */
-    await createNewColumn(newColumnData)
+    createNewColumn(newColumnData)
     //Dong trang thai them column & clear Input
     exitAddNewColums()
   }

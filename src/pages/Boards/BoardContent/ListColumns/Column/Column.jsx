@@ -16,7 +16,6 @@ import AddCardIcon from '@mui/icons-material/AddCard'
 import Button from '@mui/material/Button'
 import DragHandleIcon from '@mui/icons-material/DragHandle'
 import ListCards from './ListCards/ListCards'
-import { mapOrder } from '~/utils/sort'
 
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
@@ -48,8 +47,8 @@ function Column({ column, createNewCard }) {
     height: '100%',
     opacity: isDragging ? 0.5 : undefined
   }
-
-  const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, '_id')
+  // Column da dc sap xep o component cha cao nhat (fix bug vd71)
+  const orderedCards = column.cards
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const handleClick = (event) => {
@@ -82,7 +81,7 @@ function Column({ column, createNewCard }) {
       columnId: column?._id
     }
 
-    await createNewCard(newCardData)
+    createNewCard(newCardData)
 
     //Dong trang thai them card & clear Input
     exitAddNewCard()
