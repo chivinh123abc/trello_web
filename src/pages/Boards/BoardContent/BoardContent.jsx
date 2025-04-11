@@ -33,7 +33,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
   CARD: 'ACTIVE_DRAG_ITEM_TYPE_CARD'
 }
 
-function BoardContent({ board, createNewColumn, createNewCard }) {
+function BoardContent({ board, createNewColumn, createNewCard, moveColumns }) {
   // https://docs.dndkit.com/api-documentation/sensors
   //Neu dung pointerSensor mac dinh thi phai ket hop thuoc tinh CSS touch-action: none o nhung phan tu keo tha
   // const pointerSensor = useSensor(PointerSensor, { activationConstraint: { distance: 10 } })
@@ -247,14 +247,11 @@ function BoardContent({ board, createNewColumn, createNewCard }) {
         // Dung arrayMove cua dnd-kit de sap xep lai Columns ban dau
         // dnd-kit/packages/sortable/src/utilities/arrayMove.ts
         const dndOrderedColumns = arrayMove(orderedColumns, oldColumnIndex, newColumnIndex)
-        // 2 cai console.log Sau nay xu ly goi API de thay du lieu trong database
-        // const dndOrderedColumnsIds = dndOrderedColumns.map(c => c._id)
-        // console.log(active)
-        // console.log(over)
-        // console.log(dndOrderedColumns)
-        // console.log(dndOrderedColumnsIds)
 
-        // Cap nhat lai state colums sau khi theo tha
+        // goi len moveColumns nam o component cha cao nhat
+        moveColumns(dndOrderedColumns)
+
+        // Van goi update Stat de tranh delay or flickering giao dien luc keo tha can phai cho goi api
         setOrderedColumnsState(dndOrderedColumns)
       }
     }
