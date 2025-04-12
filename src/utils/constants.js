@@ -1,3 +1,13 @@
-//EN
-// export const API_ROOT = 'http://localhost:8017'
-export const API_ROOT = 'https://trello-api-306q.onrender.com'
+//import.meta.env
+let apiRoot = ''
+// console.log('🚀 ~ apiRoot:', process.env)
+
+if (process.env.BUILD_MODE === 'dev') {
+  apiRoot = 'http://localhost:8017'
+}
+if (process.env.BUILD_MODE === 'production') {
+  apiRoot = 'https://trello-api-306q.onrender.com'
+}
+// console.log('🚀 ~ apiRoot:', apiRoot)
+
+export const API_ROOT = apiRoot
