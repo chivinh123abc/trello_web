@@ -12,13 +12,15 @@ import {
   fetchBoardDetailsAPI,
   moveCardInDifferentColumnAPI,
   updateBoardDetailsAPI,
-  updateColumnDetailsAPI
+  updateColumnDetailsAPI,
+  deteleColumnDetailsAPI
 } from '~/apis'
 import { isEmpty } from 'lodash'
 import { generatePlaceholderCard } from '~/utils/formatters'
 import { Box } from '@mui/material'
 import CircularProgress from '@mui/material/CircularProgress'
 import Typography from '@mui/material/Typography'
+import { toast } from 'react-toastify'
 
 function Board() {
   const [board, setBoard] = useState(null)
@@ -144,6 +146,21 @@ function Board() {
     })
   }
 
+  // Xu ly xoa 1 Column va cards ben trong  no
+  const deleteColumnDetails = (columnId) => {
+    // Update cho chuan du lieu state board
+    const newBoard = { ...board }
+    newBoard.columns = newBoard.columns.filter(c => c._id !== columnId)
+    newBoard.columnOrderIds = newBoard.columnOrderIds.filter(_id => _id !== columnId)
+    // console.log(createdColumn)
+    setBoard(newBoard)
+
+    // Goi API xu ly phia BE
+    deteleColumnDetailsAPI(columnId).then(res => {
+      toast.success(res?.deleteResult)
+    })
+  }
+
   if (!board) {
     return (
       <Box sx={{
@@ -166,11 +183,13 @@ function Board() {
       <BoardBar board={board} />
       <BoardContent
         board={board}
+
         createNewColumn={createNewColumn}
         createNewCard={createNewCard}
         moveColumns={moveColumns}
         moveCardInTheSameColumn={moveCardInTheSameColumn}
         moveCardInDifferentColumn={moveCardInDifferentColumn}
+        deleteColumnDetails={deleteColumnDetails}
       />
     </Container >
 
