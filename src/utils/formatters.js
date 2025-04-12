@@ -9,12 +9,12 @@ export const capitalizeFirstLetter = (val) => {
         * Phia FE se tu  tao 1  cai card dac  biet: PlaceholderCard , khong lien qan den BE
         * Card  nay se dc an o giao dien UI nguoi  dung
         * Cau truc Id cua cai card nay de Unique rat don gian khong can phai random phuc tap:
-        * "columnId-placeholder-card" (moi column chi co the co toi da 1 placeHoderCard)
-        * quan trong khi tao: phai day du (_id, boardId, columnId, FE_PlacehoderCard)
+        * "columnId-placeholder-card" (moi column chi co the co toi da 1 placeHolderCard)
+        * quan trong khi tao: phai day du (_id, boardId, columnId, FE_PlaceholderCard)
         */
 export const generatePlaceholderCard = (column) => {
   return {
-    _id: `${column._id}-placehoder-card`,
+    _id: `${column._id}-placeholder-card`,
     boardId: column.boardId,
     columnId: column._id,
     FE_PlaceholderCard: true

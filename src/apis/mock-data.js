@@ -66,8 +66,8 @@ export const mockData = {
          * Phia FE se tu  tao 1  cai card dac  biet: PlaceholderCard , khong lien qan den BE
          * Card  nay se dc an o giao dien UI nguoi  dung
          * Cau truc Id cua cai card nay de Unique rat don gian khong can phai random phuc tap:
-         * "columnId-placeholder-card" (moi column chi co the co toi da 1 placeHoderCard)
-         * quan trong khi tao: phai day du (_id, boardId, columnId, FE_PlacehoderCard)
+         * "columnId-placeholder-card" (moi column chi co the co toi da 1 placeHolderCard)
+         * quan trong khi tao: phai day du (_id, boardId, columnId, FE_PlaceholderCard)
          * *** Kỹ hơn nữa về cacsh tạo chuẩn ở bước nào thì sẽ học ở tích hợp API BackEnd vào dự án
          */
         cardOrderIds: ['column-id-04-placeholder-card'],

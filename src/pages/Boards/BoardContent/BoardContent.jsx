@@ -106,7 +106,7 @@ function BoardContent({
         //Xoa card o column active (column cu) luc ma keo card khoi de sang column khac
         nextActiveColumn.cards = nextActiveColumn.cards.filter(card => card._id !== activeDraggingCardId)
 
-        //Them placeHoderCard neu column rong: 37.2
+        //Them placeHolderCard neu column rong: 37.2
         if (isEmpty(nextActiveColumn.cards)) {
           nextActiveColumn.cards = [generatePlaceholderCard(nextActiveColumn)]
         }
@@ -127,7 +127,7 @@ function BoardContent({
         nextOverColumn.cards = nextOverColumn.cards.toSpliced(newCardIndex, 0, rebuild_activeDraggingCardData)
 
         //Xoa placeholderCard khi dang ton tai
-        nextOverColumn.cards = nextOverColumn.cards.filter(card => !card.FE_PlacehoderCard)
+        nextOverColumn.cards = nextOverColumn.cards.filter(card => !card.FE_PlaceholderCard)
 
         //cap nhat lai cardOrderedIds cho chuan du lieu
         nextOverColumn.cardOrderIds = nextOverColumn.cards.map(card => card._id)
