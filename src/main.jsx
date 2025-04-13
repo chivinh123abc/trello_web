@@ -12,21 +12,25 @@ import 'react-toastify/dist/ReactToastify.css'
 //Cau hinh MUI Dialog
 import { ConfirmProvider } from 'material-ui-confirm'
 
+//Cau hinh Redux store
+import { store } from '~/redux/store'
+import { Provider } from 'react-redux'
+
 ReactDOM.createRoot(document.getElementById('root')).render(
-  // <React.StrictMode>
-  <CssVarsProvider theme={theme}>
-    <ConfirmProvider defaultOptions={{
-      allowClose: false,
-      dialogProps: { maxWidth: 'xs' },
-      confirmationButtonProps: { color: 'secondary', variant: 'outlined' },
-      buttonOrder: ['confirm', 'cancel'],
-      cancellationButtonProps: { color: 'inherit' }
-      // autoFocus: true
-    }}>
-      <CssBaseline />
-      <App />
-      <ToastContainer theme='colored' position='bottom-left' />
-    </ConfirmProvider>
-  </CssVarsProvider>
-  // </React.StrictMode>
+  <Provider store={store}>
+    <CssVarsProvider theme={theme}>
+      <ConfirmProvider defaultOptions={{
+        allowClose: false,
+        dialogProps: { maxWidth: 'xs' },
+        confirmationButtonProps: { color: 'secondary', variant: 'outlined' },
+        buttonOrder: ['confirm', 'cancel'],
+        cancellationButtonProps: { color: 'inherit' }
+        // autoFocus: true
+      }}>
+        <CssBaseline />
+        <App />
+        <ToastContainer theme='colored' position='bottom-left' />
+      </ConfirmProvider>
+    </CssVarsProvider>
+  </Provider>
 )
