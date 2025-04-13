@@ -10,11 +10,12 @@ import { API_ROOT } from '~/utils/constants'
  */
 
 // Board
-export const fetchBoardDetailsAPI = async (boardId) => {
-  const response = await axios.get(`${API_ROOT}/v1/boards/${boardId}`)
-  //Axios tra ve ket qua qua property cua no la data
-  return response.data
-}
+// Da move vao redux
+// export const fetchBoardDetailsAPI = async (boardId) => {
+//   const response = await axios.get(`${API_ROOT}/v1/boards/${boardId}`)
+//   //Axios tra ve ket qua qua property cua no la data
+//   return response.data
+// }
 
 export const updateBoardDetailsAPI = async (boardId, updateData) => {
   const response = await axios.put(`${API_ROOT}/v1/boards/${boardId}`, updateData)
