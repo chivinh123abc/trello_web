@@ -34,12 +34,9 @@ const ACTIVE_DRAG_ITEM_TYPE = {
 
 function BoardContent({
   board,
-  createNewColumn,
-  createNewCard,
   moveColumns,
   moveCardInTheSameColumn,
-  moveCardInDifferentColumn,
-  deleteColumnDetails
+  moveCardInDifferentColumn
 }) {
   // https://docs.dndkit.com/api-documentation/sensors
   //Neu dung pointerSensor mac dinh thi phai ket hop thuoc tinh CSS touch-action: none o nhung phan tu keo tha
@@ -380,10 +377,6 @@ function BoardContent({
       }}>
         <ListColumns
           columns={orderedColumns}
-          createNewColumn={createNewColumn}
-          createNewCard={createNewCard}
-          deleteColumnDetails={deleteColumnDetails}
-        // moveCardInTheSameColumn={moveCardInTheSameColumn}
         />
         <DragOverlay dropAnimation={customDropAnimation}>
           {!activeDragItemType && null}

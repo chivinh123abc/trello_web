@@ -8,8 +8,19 @@ import CloseIcon from '@mui/icons-material/Close'
 
 import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable'
 import { TextField } from '@mui/material'
+import { generatePlaceholderCard } from '~/utils/formatters'
+import { createNewColumnAPI } from '~/apis'
+import { cloneDeep } from 'lodash'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  selectCurrentActiveBoard,
+  updateCurrentActiveBoard
+} from '~/redux/activeBoard/activeBoardSlice'
 
-function ListColumns({ columns, createNewColumn, createNewCard, deleteColumnDetails }) {
+function ListColumns({ columns }) {
+  const board = useSelector(selectCurrentActiveBoard)
+  const dispatch = useDispatch()
+
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false)
   const toggleOpenNewColumnForm = () => {
     setOpenNewColumnForm(!openNewColumnForm)
@@ -33,13 +44,31 @@ function ListColumns({ columns, createNewColumn, createNewCard, deleteColumnDeta
       // boardId: createNewColumn.boardId
     }
 
+    // Goi api tao moi column va lam lai du lieu State Board
+    const createdColumn = await createNewColumnAPI({
+      ...newColumnData,
+      boardId: board._id
+    })
+
+    createdColumn.cards = [generatePlaceholderCard(createdColumn)]
+    createdColumn.cardOrderIds = [generatePlaceholderCard(createdColumn)._id]
+
+    // Cap nhat state board
     /**
-     * Gọi lên props function createNewColumn nằm ở component cha cao nhất (boards/_id.jsx)
-     * Lưu ý: về sau ở học phần nâng cao học thì sẽ đưa boardData ra ngoài Redux Global Store
-     * Thi lúc này chúng ta có thể gọi luôn API ở đây là xong thay vì phải lần lượt gọi lên những component cha phía trên(Đối với component con nằm càng sâu càng khổ)
-     * - Với việc sử dụng Redux như vậy thì code sẽ clean chuẩn chỉnh hơn
+     * Đoạn này sẽ dính lỗi object is not extensible bởi dù đã copy/clone giá trị newBoard nhưng bản chất của spread operator là Shallow Copy/Clone nên dính phải rules Immutability trong Redux Toolkit không dùng được hàm PUSH (sửa giá trị mảng trực tiếp), cách đơn giản nhanh gọn nhất ở trường hợp này của chúng ta là dùng Deep Copy/Clone toàn bộ Board
      */
-    createNewColumn(newColumnData)
+    const newBoard = cloneDeep(board)
+    newBoard.columns.push(createdColumn)
+    newBoard.columnOrderIds.push(createdColumn._id)
+
+    /** Cách thứ 2
+     * dùng array.concat thay cho push như docs của ReduxToolkit ở trên vì push như đã nói nó sẽ thay đổi giá trị mảng trực tiếp, còn concat thì merge - ghép mảng lại và tạo ra 1 mảng mới để chúng ta gán lại giá trị nên không có vấn đề gì
+     * const newBoard = {...board}
+     * newBoard.columns  = newBoard.columns.concat([createdColumn])
+     * newBoard.columnOrderIds  = newBoard.columnOrderIds.concat([createdColumn._id])
+     */
+
+    dispatch(updateCurrentActiveBoard(newBoard))
     //Dong trang thai them column & clear Input
     exitAddNewColums()
   }
@@ -62,8 +91,7 @@ function ListColumns({ columns, createNewColumn, createNewCard, deleteColumnDeta
         {columns?.map(column => <Column
           key={column._id}
           column={column}
-          createNewCard={createNewCard}
-          deleteColumnDetails={deleteColumnDetails} />)}
+        />)}
         {/* {columns?.map(column => {
         return <Column key={column._id} />
         })} */}

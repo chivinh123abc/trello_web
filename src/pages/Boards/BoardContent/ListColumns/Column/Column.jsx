@@ -23,8 +23,18 @@ import { TextField } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import { toast } from 'react-toastify'
 import { useConfirm } from 'material-ui-confirm'
+import { createNewCardAPI, deteleColumnDetailsAPI } from '~/apis'
+import { cloneDeep } from 'lodash'
+import {
+  selectCurrentActiveBoard,
+  updateCurrentActiveBoard
+} from '~/redux/activeBoard/activeBoardSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
-function Column({ column, createNewCard, deleteColumnDetails }) {
+function Column({ column }) {
+  const board = useSelector(selectCurrentActiveBoard)
+  const dispatch = useDispatch()
+
   const {
     attributes,
     listeners,
@@ -82,7 +92,28 @@ function Column({ column, createNewCard, deleteColumnDetails }) {
       columnId: column?._id
     }
 
-    createNewCard(newCardData)
+    const createdCard = await createNewCardAPI({
+      ...newCardData,
+      boardId: board._id
+    })
+
+    // Goi api tao moi card va lam lai du lieu State Board
+    // Tương tự hàm createNewColumn nên dùng cloneDeep
+    const newBoard = cloneDeep(board)
+    const columnToUpdate = newBoard.columns?.find(column => column._id === createdCard.columnId)
+    if (columnToUpdate) {
+      //Neu column rong: ban chat la dang chua 1 Placeholder Card
+      if (columnToUpdate.cards.some(card => card.FE_PlaceholderCard)) {
+        columnToUpdate.cards = [createdCard]
+        columnToUpdate.cardOrderIds = [createdCard._id]
+      } else {
+        columnToUpdate.cards.push(createdCard)
+        columnToUpdate.cardOrderIds.push(createdCard._id)
+      }
+
+    }
+
+    dispatch(updateCurrentActiveBoard(newBoard))
 
     //Dong trang thai them card & clear Input
     exitAddNewCard()
@@ -106,7 +137,18 @@ function Column({ column, createNewCard, deleteColumnDetails }) {
       // confirmationKeyword: 'ryanluong'
     })
     if (confirmed) {
-      deleteColumnDetails(column._id)
+      // Xu ly xoa 1 Column va cards ben trong  no
+      // Update cho chuan du lieu state board
+      const newBoard = { ...board }
+      newBoard.columns = newBoard.columns.filter(c => c._id !== column._id)
+      newBoard.columnOrderIds = newBoard.columnOrderIds.filter(_id => _id !== column._id)
+      // console.log(createdColumn)
+      dispatch(updateCurrentActiveBoard(newBoard))
+
+      // Goi API xu ly phia BE
+      deteleColumnDetailsAPI(column._id).then(res => {
+        toast.success(res?.deleteResult)
+      })
     }
   }
 
