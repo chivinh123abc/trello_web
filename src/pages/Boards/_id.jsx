@@ -18,8 +18,9 @@ import {
   updateCurrentActiveBoard,
   selectCurrentActiveBoard
 } from '~/redux/activeBoard/activeBoardSlice'
-import { useDispatch, useSelector } from 'react-redux'
 import { cloneDeep } from 'lodash'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 
 function Board() {
   const dispatch = useDispatch()
@@ -27,14 +28,13 @@ function Board() {
   // const [board, setBoard] = useState(null)
   const board = useSelector(selectCurrentActiveBoard)
 
+  const { boardId } = useParams()
 
   useEffect(() => {
-    // tạm thời fix  cứng board(flow chuẩn chỉnh thì nằm ở advance dùng react_router_dom để lấy chuẩn boardId từ URL)
-    const boardId = '67f255a06c5aa0fcdb33f6c6'
+    // const boardId = '67f255a06c5aa0fcdb33f6c6'
     //Call API
     dispatch(fetchBoardDetailsAPI(boardId))
-
-  }, [dispatch])
+  }, [dispatch, boardId])
 
 
   //Goi APi va xu ly khi keo tha column
