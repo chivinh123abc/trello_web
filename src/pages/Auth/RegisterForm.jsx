@@ -102,6 +102,7 @@ function RegisterForm() {
               color="primary"
               size="large"
               fullWidth
+              className='interceptor-loading'
             >
               Register
             </Button>
