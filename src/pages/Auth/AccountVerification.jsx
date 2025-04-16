@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Navigate, useSearchParams } from 'react-router-dom'
 import PageLoadingSpinner from '~/components/Loading/PageLoadingSpinner'
+import { verifyUserAPI } from '~/apis'
 
 function AccountVerification() {
   //  Lay gia tri email va token tu URL
@@ -13,7 +14,11 @@ function AccountVerification() {
   const [verified, setVerified] = useState(false)
 
   // Goi API de verify tai khoan
-
+  useEffect(() => {
+    if (email && token) {
+      verifyUserAPI({ email, token }).then(() => setVerified(true))
+    }
+  }, [email, token])
   // Neu url co van de, khong ton tai 1 trong 2 gia tri email or token thi da ra trang 404
   if (!email || !token) {
     return <Navigate to='/404' />
