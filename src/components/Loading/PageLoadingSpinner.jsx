@@ -1,4 +1,5 @@
-const { CircularProgress, Typography, Box } = require('@mui/material')
+import { Box, CircularProgress, Typography } from '@mui/material'
+
 
 function PageLoadingSpinner({ caption }) {
   return (
