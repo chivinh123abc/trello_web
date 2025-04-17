@@ -27,8 +27,8 @@ export const activeBoardSlice = createSlice({
   // Reducers: Nơi xử lý dữ liệu đồng bộ
   reducers: {
     updateCurrentActiveBoard: (state, action) => {
-      // action.payload là chuẩn đặt tên nhận  dữ liệu vào reducer, ở đây chúng ta gán
-      // nó ra 1 biến có nghĩa  hơn
+      // action.payload là chuẩn đặt tên nhận dữ liệu vào reducer, ở đây chúng ta gán
+      // nó ra 1 biến có nghĩa hơn
       const board = action.payload
 
       // Xu ly du lieu neu can thiet
