@@ -24,7 +24,7 @@ function AccountVerification() {
     return <Navigate to='/404' />
   }
   // Neu chua verify xong thi hien loading
-  if (verified) {
+  if (!verified) {
     return <PageLoadingSpinner caption='Verifying your account...' />
   }
   // Cuoi cung neu khong gap van de gi + verify thanh cong thi dieu huong ve  trang login cung gia tri verifiedEmail
