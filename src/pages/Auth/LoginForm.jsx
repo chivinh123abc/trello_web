@@ -35,7 +35,6 @@ function LoginForm() {
 
   const submitLogIn = (data) => {
     const { email, password } = data
-
     toast.promise(
       dispatch(loginUserAPI({ email, password })),
       { pending: 'Logging in....' }
@@ -44,6 +43,7 @@ function LoginForm() {
       // Kiểm tra, nếu không có lỗi mới redirect về route
       if (!res.error) navigate('/')
     })
+
   }
 
   return (
