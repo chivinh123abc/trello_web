@@ -46,7 +46,6 @@ export const deteleColumnDetailsAPI = async (columnId) => {
   return response.data
 }
 
-
 // Card
 export const createNewCardAPI = async (newCardData) => {
   const response = await authorizedAxiosInstance.post(`${API_ROOT}/v1/cards`, newCardData)
@@ -65,3 +64,9 @@ export const verifyUserAPI = async (data) => {
   toast.success('Account verified successfully! Now you can login to enjoy our  services! Have a good day!!!', { theme: 'colored' })
   return response.data
 }
+
+export const refreshTokenAPI = async () => {
+  const response = await authorizedAxiosInstance.get(`${API_ROOT}/v1/users/refresh_token`)
+  return response.data
+}
+

@@ -10,9 +10,6 @@ import {
   updateBoardDetailsAPI,
   updateColumnDetailsAPI
 } from '~/apis'
-import { Box } from '@mui/material'
-import CircularProgress from '@mui/material/CircularProgress'
-import Typography from '@mui/material/Typography'
 import {
   fetchBoardDetailsAPI,
   updateCurrentActiveBoard,
