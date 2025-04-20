@@ -117,15 +117,20 @@ function BoardBar({ board }) {
               alt="BachLoc"
               src="https://i.pinimg.com/736x/7e/a0/90/7ea0904d2dbe92a9b8070676b85eee85.jpg" />
           </Tooltip>
+          <Tooltip title='YuXuXin'>
+            <Avatar
+              alt="NguThuHan"
+              src="https://i.pinimg.com/736x/fa/ba/bb/fababbc20e7d451503365d52de94cbcd.jpg" />
+          </Tooltip>
           <Tooltip title='XuRuoHan'>
             <Avatar
               alt="TuNhuocHam"
               src="https://i.pinimg.com/736x/65/7f/08/657f084eb987f6a63103db62691d4418.jpg" />
           </Tooltip>
-          <Tooltip title='YuXuXin'>
+          <Tooltip title='TianXiWei'>
             <Avatar
-              alt="NguThuHan"
-              src="https://i.pinimg.com/736x/fa/ba/bb/fababbc20e7d451503365d52de94cbcd.jpg" />
+              alt="DienHiVi"
+              src="https://i.pinimg.com/736x/f6/dc/aa/f6dcaa779864cfb7cbc93fb5f5d83213.jpg" />
           </Tooltip>
           <Tooltip title='SunZhenNi'>
             <Avatar
