@@ -40,7 +40,13 @@ function AppBar() {
       bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#2c3e50' : '#1565c0')
     }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        <AppsIcon sx={{ color: '#ffffff' }} />
+        <Link to={'/boards'}>
+          <Tooltip title='Board List'>
+            <AppsIcon sx={{ color: '#ffffff', verticalAlign: 'middle' }} />
+          </Tooltip>
+        </Link>
+
+
         <Link to='/'>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
             <SvgIcon component={TrelloIcon} fontSize='small' inheritViewBox sx={{ color: '#ffffff' }} />
