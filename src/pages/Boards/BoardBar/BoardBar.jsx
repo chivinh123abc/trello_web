@@ -11,6 +11,7 @@ import Tooltip from '@mui/material/Tooltip'
 import Button from '@mui/material/Button'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import { capitalizeFirstLetter } from '~/utils/formatters'
+import BoardUserGroup from './BoardUserGroup'
 
 
 const MENU_STYLES = {
@@ -97,57 +98,12 @@ function BoardBar({ board }) {
             '&:hover': { borderColor: '#ffffff' }
           }}
         >Invite</Button>
-        <AvatarGroup
-          max={5}
-          sx={{
-            gap: '10px',
-            '& .MuiAvatar-root': {
-              width: 34,
-              height: 34,
-              fontSize: '16px',
-              border: 'none',
-              color: '#ffffff',
-              cursor: 'pointer',
-              '&:first-of-type': { bgcolor: 'a4b0be' }
-            }
-          }}
-        >
-          <Tooltip title='BaiLu'>
-            <Avatar
-              alt="BachLoc"
-              src="https://i.pinimg.com/736x/7e/a0/90/7ea0904d2dbe92a9b8070676b85eee85.jpg" />
-          </Tooltip>
-          <Tooltip title='YuXuXin'>
-            <Avatar
-              alt="NguThuHan"
-              src="https://i.pinimg.com/736x/fa/ba/bb/fababbc20e7d451503365d52de94cbcd.jpg" />
-          </Tooltip>
-          <Tooltip title='XuRuoHan'>
-            <Avatar
-              alt="TuNhuocHam"
-              src="https://i.pinimg.com/736x/65/7f/08/657f084eb987f6a63103db62691d4418.jpg" />
-          </Tooltip>
-          <Tooltip title='TianXiWei'>
-            <Avatar
-              alt="DienHiVi"
-              src="https://i.pinimg.com/736x/f6/dc/aa/f6dcaa779864cfb7cbc93fb5f5d83213.jpg" />
-          </Tooltip>
-          <Tooltip title='SunZhenNi'>
-            <Avatar
-              alt="TonTranNy"
-              src="https://i.pinimg.com/736x/01/1f/b5/011fb5da5a158faa0ed5c2451149f561.jpg" />
-          </Tooltip>
-          <Tooltip title='DaiLoOa'>
-            <Avatar
-              alt="DaiLoOa"
-              src="https://i.pinimg.com/736x/bc/0c/15/bc0c15219b6b9fde4d65c02386b813d6.jpg" />
-          </Tooltip>
-          <Tooltip title='PikaPika'>
-            <Avatar
-              alt="Pikachu"
-              src="https://i.pinimg.com/736x/d4/96/76/d496761128b05abc4aed6a81985c873a.jpg" />
-          </Tooltip>
-        </AvatarGroup>
+
+        {/* Xu ly hien thi danh sach thanh vien */}
+        <BoardUserGroup
+          limit={6}
+        />
+
       </Box>
     </Box>
   )
