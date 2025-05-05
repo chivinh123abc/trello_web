@@ -19,12 +19,15 @@ import { cloneDeep } from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import PageLoadingSpinner from '~/components/Loading/PageLoadingSpinner'
+import ActiveCard from '~/components/Modal/ActiveCard/ActiveCard'
+import { selectCurrentActiveCard } from '~/redux/activeCard/activeCardSlice'
 
 function Board() {
   const dispatch = useDispatch()
   // Khong dung state cua component nx ma chuyen qua dung State cua Redux
   // const [board, setBoard] = useState(null)
   const board = useSelector(selectCurrentActiveBoard)
+  const activeCard = useSelector(selectCurrentActiveCard)
 
   const { boardId } = useParams()
 
@@ -104,7 +107,11 @@ function Board() {
 
   return (
     <Container disableGutters maxWidth={false} sx={{ height: '100vh' }}>
-      <AppBar></AppBar>
+      {/* Modal Active Card, check đóng/mở dựa theo điều kiện có tồn tại data activeCard lưu trong Redux hay không thì mới render,. Mỗi thời điểm chi tồm tại 1 modal card đang active */}
+      {activeCard && <ActiveCard />}
+
+      {/* Cac thanh phan con lai cua boardDetails */}
+      <AppBar />
       <BoardBar board={board} />
       <BoardContent
         board={board}
