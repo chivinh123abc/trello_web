@@ -24,7 +24,7 @@ function Auth() {
       alignItems: 'center',
       justifyContent: 'flex-start',
       // background: 'url("src/assets/auth/xuruohan.jpg")',
-      background: 'url("src/assets/auth/login-register-bg.jpg")',
+      background: 'url("https://i.pinimg.com/736x/cc/a8/23/cca8233929a49172720a8d40b7c62433.jpg")',
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
