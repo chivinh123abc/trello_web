@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 
 // Khởi tạo giá trị của một Slice trong redux
 const initialState = {
-  currentActiveCard: null
+  currentActiveCard: null,
+  isShowModalActiveCard: false
 }
 
 // Khởi tạo một slice trong kho lưu trữ - redux store
@@ -12,8 +13,14 @@ export const activeCardSlice = createSlice({
   // Reducer: Noi xu ly du lieu dong bo
   reducers: {
     // Luu y: la can cap ngoac  nhon cho function trong reducer  choducodebentrong chi co 1 dong, day la rule cua Redux
-    clearCurrentActiveCard: (state) => {
+
+    showModalActiveCard: (state) => {
+      state.isShowModalActiveCard = true
+    },
+
+    clearAndHideCurrentActiveCard: (state) => {
       state.currentActiveCard = null
+      state.isShowModalActiveCard = false
     },
 
     updateCurrentActiveCard: (state, action) => {
@@ -33,11 +40,19 @@ export const activeCardSlice = createSlice({
 // Action creators are generated for each case reducer function
 // Actions: La noi danh cho cac components ben duoi goi bang  dispatch() toi no de cap nhat lai du lieu thong qua reducer (chay dong bo)
 // De y o tren thi khong thay properties actions dau ca, boi vi nhung cai actions nay don gian la duoc Redux tao tu dong theo ten cua reducer ne
-export const { clearCurrentActiveCard, updateCurrentActiveCard } = activeCardSlice.actions
+export const {
+  clearAndHideCurrentActiveCard,
+  updateCurrentActiveCard,
+  showModalActiveCard
+} = activeCardSlice.actions
 
 // Selectors : La noi danh cho cac components ben duoi goi bang hook useSelector() de lay du lieu tu trong kho redux store ra su dung
 export const selectCurrentActiveCard = (state) => {
   return state.activeCard.currentActiveCard
+}
+
+export const selectIsShowModalActiveCard = (state) => {
+  return state.activeCard.isShowModalActiveCard
 }
 
 // filenay ten la activeCardSlice NHUNG chung  ta se export 1 thu ten la Reducer
