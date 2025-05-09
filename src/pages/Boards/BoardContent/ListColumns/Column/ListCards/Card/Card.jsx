@@ -11,7 +11,7 @@ import AttachmentIcon from '@mui/icons-material/Attachment'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { useDispatch } from 'react-redux'
-import { updateCurrentActiveCard } from '~/redux/activeCard/activeCardSlice'
+import { showModalActiveCard, updateCurrentActiveCard } from '~/redux/activeCard/activeCardSlice'
 
 function Card({ card }) {
   const dispatch = useDispatch()
@@ -23,6 +23,8 @@ function Card({ card }) {
   const setActiveCard = () => {
     // Cap nhat data cho activeCard trong Redux
     dispatch(updateCurrentActiveCard(card))
+    // Hien modal len
+    dispatch(showModalActiveCard())
   }
 
   const {
