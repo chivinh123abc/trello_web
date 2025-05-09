@@ -36,6 +36,26 @@ export const activeBoardSlice = createSlice({
 
       //Update lai du lieu cua currentActiveBoard
       state.currentActiveBoard = board
+    },
+    updateCardInBoard: (state, action) => {
+      // Update nested data
+      // https://redux-toolkit.js.org/usage/immer-reducers#updating-nested-data
+      const incomingCard = action.payload
+
+      //Tim dan tu board -> column -> card
+      const column = state.currentActiveBoard.columns.find(i => i._id === incomingCard.columnId)
+      if (column) {
+        const card = column.cards.find(i => i._id === incomingCard._id)
+        if (card) {
+          // card.title = incomingCard.title
+          // card['title'] = incomingCard['title']
+
+          Object.keys(incomingCard).forEach(key => {
+            card[key] = incomingCard[key]
+          })
+        }
+
+      }
     }
   },
   // ExtraReducers: Noi xu ly du lieu bat dong bo
@@ -43,6 +63,9 @@ export const activeBoardSlice = createSlice({
     builder.addCase(fetchBoardDetailsAPI.fulfilled, (state, action) => {
       // action.payload ở đây chính là response.data mà ta đã gọi API trả về ở trên
       let board = action.payload
+
+      // Thanh vien trong board se le gop lai cua 2 mang owner va member
+      board.FE_allUsers = board.owners.concat(board.members)
 
       board.columns = mapOrder(board.columns, board.columnOrderIds, '_id')
       //xu  ly keo tha column  rong
@@ -64,7 +87,7 @@ export const activeBoardSlice = createSlice({
 
 // Actions: Là nơi dành cho các components bên dưới gọi bằng dispatch() tới nó để cập nhật lại dữ liệu thông qua reducer (chạy đồng bộ)
 // Để ý ở trên thì không có properties actions ở đâu, bởi vì những actions này đơn giản là được redux tạo tự động theo tên của reducer
-export const { updateCurrentActiveBoard } = activeBoardSlice.actions
+export const { updateCurrentActiveBoard, updateCardInBoard } = activeBoardSlice.actions
 
 // Selectors: là nơi dành cho các components bên dưới gọi bằng hook useSelector() để lấy dữ liệu từ trong kho redux store ra sử dụng
 export const selectCurrentActiveBoard = (state) => {
